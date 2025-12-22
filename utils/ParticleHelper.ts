@@ -1,4 +1,8 @@
-import { BoundingBox, Dimension, MolangVariableMap } from "@minecraft/server";
+import {
+    BlockBoundingBox,
+    Dimension,
+    MolangVariableMap,
+} from "@minecraft/server";
 import { Vector } from "../wrappers/Vector";
 import VectorHelper from "./VectorHelper";
 
@@ -24,7 +28,7 @@ export default class ParticleHelper {
     };
 
     public static drawCuboid = (
-        boundingBox: BoundingBox,
+        boundingBox: BlockBoundingBox,
         particle: string,
         dimension: Dimension
     ) => {

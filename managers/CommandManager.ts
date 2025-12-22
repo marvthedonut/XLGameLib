@@ -1,4 +1,4 @@
-import * as server from "@minecraft/server";
+import { world, system, ChatSendBeforeEvent } from "@minecraft/server";
 import Command from "../types/Command";
 
 export default class CommandManager {
@@ -18,8 +18,9 @@ export default class CommandManager {
         return this;
     };
 
-    private static chatSendBefore = (event: server.ChatSendBeforeEvent) => {
+    private static chatSendBefore = (event: ChatSendBeforeEvent) => {
         let message = event.message;
+
         if (!message.startsWith(this.config.prefix)) return;
 
         let commandName = message
@@ -29,7 +30,7 @@ export default class CommandManager {
 
         this.registeredCommands.forEach((command) => {
             if (command.name == commandName) {
-                server.system.run(() => {
+                system.run(() => {
                     let status = command.execute(event);
                     switch (status) {
                         case -1:
@@ -44,7 +45,7 @@ export default class CommandManager {
     public static init = () => {
         if (!this.config)
             throw Error("Command Manager initialized before configured.");
-        server.world.beforeEvents.chatSend.subscribe(this.chatSendBefore);
+        world.beforeEvents.chatSend.subscribe(this.chatSendBefore);
     };
 }
 

@@ -1,10 +1,10 @@
-import { BoundingBox } from "@minecraft/server";
+import { BlockBoundingBox } from "@minecraft/server";
 import { Vector } from "../wrappers/Vector";
 
 export default class Misc {
     public static clamp = (num: number, min: number, max: number) =>
         Math.min(Math.max(num, min), max);
-    public static isInside = (box: BoundingBox, pos: Vector): boolean => {
+    public static isInside = (box: BlockBoundingBox, pos: Vector): boolean => {
         let x = box.max.x - box.min.x,
             y = box.max.y - box.min.y,
             z = box.max.z - box.min.z;
