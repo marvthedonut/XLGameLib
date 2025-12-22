@@ -1,5 +1,5 @@
 import Event from "../types/Event";
-import ChatHelper from "../utils/ChatHelper";
+import ChatHelper, { LOG_LEVEL } from "../utils/ChatHelper";
 
 export default class EventManager {
     public static registeredEvents: Event[] = [];
@@ -17,7 +17,8 @@ export default class EventManager {
                 typeof event.eventSignal.subscribe == "function"
             )
                 ids.push(event.eventSignal.subscribe(event.execute));
-            else ChatHelper.broadcastMessage(`Failed to init ${event.name}`);
+            else
+                ChatHelper.log(`Failed to init ${event.name}`, LOG_LEVEL.ERROR);
         });
         return ids;
     };
