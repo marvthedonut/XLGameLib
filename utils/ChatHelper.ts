@@ -1,4 +1,4 @@
-import { world } from "@minecraft/server";
+import { system, world } from "@minecraft/server";
 
 export enum LOG_LEVEL {
     ERROR = 3,
@@ -15,34 +15,36 @@ export default class ChatHelper {
     };
 
     public static log(message: string, level?: LOG_LEVEL) {
-        if (level === undefined) {
-            level = LOG_LEVEL.VERBOSE;
-        }
-
-        if (level >= this.level) {
-            switch (level) {
-                case LOG_LEVEL.ERROR:
-                    world.sendMessage(
-                        `<Server> ${Colors.RED}${Colors.BOLD}ERROR:${Colors.RESET} ${message}`
-                    );
-                    break;
-                case LOG_LEVEL.WARN:
-                    world.sendMessage(
-                        `<Server> ${Colors.MATERIAL_COPPER}${Colors.BOLD}WARN:${Colors.RESET} ${message}`
-                    );
-                    break;
-                case LOG_LEVEL.VERBOSE:
-                    world.sendMessage(
-                        `<Server> ${Colors.GRAY}${Colors.BOLD}VERBOSE:${Colors.RESET} ${message}`
-                    );
-                    break;
-                case LOG_LEVEL.DEBUG:
-                    world.sendMessage(
-                        `<Server> ${Colors.DARK_GRAY}${Colors.BOLD}DEBUG:${Colors.RESET}${Colors.GRAY}${Colors.ITALIC} ${message}`
-                    );
-                    break;
+        system.run(() => {
+            if (level === undefined) {
+                level = LOG_LEVEL.VERBOSE;
             }
-        }
+
+            if (level >= this.level) {
+                switch (level) {
+                    case LOG_LEVEL.ERROR:
+                        world.sendMessage(
+                            `<Server> ${Colors.RED}${Colors.BOLD}ERROR:${Colors.RESET} ${message}`,
+                        );
+                        break;
+                    case LOG_LEVEL.WARN:
+                        world.sendMessage(
+                            `<Server> ${Colors.MATERIAL_COPPER}${Colors.BOLD}WARN:${Colors.RESET} ${message}`,
+                        );
+                        break;
+                    case LOG_LEVEL.VERBOSE:
+                        world.sendMessage(
+                            `<Server> ${Colors.GRAY}${Colors.BOLD}VERBOSE:${Colors.RESET} ${message}`,
+                        );
+                        break;
+                    case LOG_LEVEL.DEBUG:
+                        world.sendMessage(
+                            `<Server> ${Colors.DARK_GRAY}${Colors.BOLD}DEBUG:${Colors.RESET}${Colors.GRAY}${Colors.ITALIC} ${message}`,
+                        );
+                        break;
+                }
+            }
+        });
     }
 
     public static setLogLevel = (level: LOG_LEVEL) => {
